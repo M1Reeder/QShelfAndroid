@@ -15,6 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,11 +55,12 @@ public class AddData extends Activity {
 			EditText title = (EditText) findViewById(R.id.title);
 			EditText description = (EditText) findViewById(R.id.description);
 			EditText tags = (EditText) findViewById(R.id.tags);
+			EditText data = (EditText) findViewById(R.id.data);
 			
 			// do some checks to make sure everything is filled in
 
 			postData(title.getText().toString(), description.getText()
-					.toString(), tags.getText().toString());
+					.toString(), tags.getText().toString(), data.getText().toString());
 
 			return null;
 		}
@@ -67,8 +69,19 @@ public class AddData extends Activity {
 		}
 
 		protected void onPostExecute(Void result) {
+			//dialoge says it sent
+			EditText title = (EditText) findViewById(R.id.title);
+			EditText description = (EditText) findViewById(R.id.description);
+			EditText tags = (EditText) findViewById(R.id.tags);
+			EditText data = (EditText) findViewById(R.id.data);
+			
+			title.setText("");
+			description.setText("");
+			tags.setText("");
+			data.setText("");
 		}
-		public void postData(String title, String description, String tag) {
+
+		public void postData(String title, String description, String tag, String data) {
 			// Create a new HttpClient and Post Header
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(
@@ -80,6 +93,7 @@ public class AddData extends Activity {
 				nameValuePairs.add(new BasicNameValuePair("title", title));
 				nameValuePairs.add(new BasicNameValuePair("description",description));
 				nameValuePairs.add(new BasicNameValuePair("tag", tag));
+				nameValuePairs.add(new BasicNameValuePair("data", data));
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 				// Execute HTTP Post Request
